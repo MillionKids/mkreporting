@@ -99,5 +99,5 @@ export default {
   quit: ['You said quit'],
   repeat: ['Sorry, I do not know what you said. Can you repeat it?'],
   ok: ['Anything else I can do for you?'],
-  kick: ['who do you want to kick out of the group?', ['lul ya id kick him out too']]
+  kick: ['is jefferson dumb', ['yes i agree']]
 }

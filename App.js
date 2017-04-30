@@ -4,10 +4,15 @@ import {
   Platform,
   StyleSheet,
   Text,
-  View
+  View,
+  TouchableHighlight,
+  WebView
 } from 'react-native';
 
 import { GiftedChat, Bubble } from 'react-native-gifted-chat';
+import DeviceInfo from 'react-native-device-info';
+import * as firebase from 'firebase';
+
 import Navbar from './Navbar';
 
 import DefaultMessages from './data/messages';
@@ -15,9 +20,15 @@ import Dictionary from './data/dictionary';
 
 // import ActionsMessages from './api/messages';
 
+import firebaseInit from './server/firebase';
+
+
+firebaseInit();
+
 export default class App extends React.Component {
   constructor(props) {
     super(props);
+    this.webView = null;
     this.state = {
       messages: [],
       nextPage: null,
@@ -25,7 +36,8 @@ export default class App extends React.Component {
       typingText: null,
       isLoadingEarlier: false,
       questioning: false,
-      series: { questions: [], current: 0, }
+      series: { questions: [], current: 0, },
+      location: { }
     };
 
     this._isMounted = false;
@@ -39,6 +51,22 @@ export default class App extends React.Component {
   componentWillMount() {
     this._isMounted = true;
     this.setState({ messages: DefaultMessages });
+    const url = 'https://freegeoip.net/json/';
+    fetch(url)
+      .then((response) => response.json())
+      .then((responseJson) => {
+        //console.log(responseJson);
+        this.setState({
+          location: {
+            countryName: responseJson.country_name,
+            regionName: responseJson.region_name,
+            city: responseJson.city,
+          }
+        });
+      })
+      .catch((error) => {
+        //console.error(error);
+      });
   }
 
   componentWillUnmount() {
@@ -83,7 +111,13 @@ export default class App extends React.Component {
     //   this.setState({ typingText: 'Syncano is typing...' });
     //   this.answerQuery(lastMessage);
     // });
-
+    firebase.database().ref('users/test').set({
+      username: "huyanh",
+      message: lastMessage,
+      location: this.state.location,
+      device: DeviceInfo.getUniqueID(),
+    });
+    console.log(this.state.messages);
   }
 
   answerQuery(message) {
@@ -186,28 +220,51 @@ export default class App extends React.Component {
       );
     }
     return null;
-  }  
+  }
+
+  onMessage( event ) {
+    console.log( "On Message", event.nativeEvent.data );
+  }
+
+  sendPostMessage() {
+    console.log( "Sending post message" );
+    this.webView.postMessage("Post message from react native");
+  }
 
   render() {
-    return (
-      <View style={styles.appContainer}>
-        <Navbar />
-        <GiftedChat
-          messages={this.state.messages}
-          onSend={this.onSend}
-          loadEarlier={this.state.hasNextPage}
-          onLoadEarlier={this.onLoadEarlier}
-          isLoadingEarlier={this.state.isLoadingEarlier}
-
-          user={{
-            _id: 1, 
-            name: 'Developer'
-          }}
-
-          renderFooter={this.renderFooter}
-        />
-      </View>
+     return (
+       <View style={{flex: 1}}>
+           <TouchableHighlight style={{padding: 10, backgroundColor: 'blue', marginTop: 20}}
+                               onPress={() => this.sendPostMessage()}>
+             <Text style={{color: 'white'}}>Send post message from react native</Text>
+           </TouchableHighlight>
+          <WebView
+            source={{uri: 'https://popping-heat-6062.firebaseapp.com'}}
+            style={{marginTop: 20}}
+            ref={( webView ) => this.webView = webView}
+            onMessage={this.onMessage}
+          />
+       </View>
     );
+    // return (
+    //   <View style={styles.appContainer}>
+    //     <Navbar />
+    //     <GiftedChat
+    //       messages={this.state.messages}
+    //       onSend={this.onSend}
+    //       loadEarlier={this.state.hasNextPage}
+    //       onLoadEarlier={this.onLoadEarlier}
+    //       isLoadingEarlier={this.state.isLoadingEarlier}
+    //
+    //       user={{
+    //         _id: 1,
+    //         name: 'Developer'
+    //       }}
+    //
+    //       renderFooter={this.renderFooter}
+    //     />
+    //   </View>
+    // );
   }
 }
 
