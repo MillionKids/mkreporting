@@ -1,18 +1,32 @@
 import React from 'react';
 import {
   Platform,
+  StatusBar,
   StyleSheet,
   Text,
   View
 } from 'react-native';
 
-const Navbar = () => {
+import WebNav from "./WebNav";
 
+const Navbar = (props) => {
+  const { viewType } = props;
   return (
     <View style={styles.navbarContainer}>
-      <Text style={styles.navbarText}>
-        Porty
-      </Text>
+      <StatusBar
+        barStyle="light-content"
+      />
+      {
+        viewType === 'chat' &&
+        <Text style={styles.navbarText}>
+          Porty
+        </Text>
+      }
+      {
+        viewType === 'web' &&
+          <WebNav {...this.props}/>
+      }
+
     </View>
   );
 
@@ -22,7 +36,7 @@ const styles = StyleSheet.create({
   navbarContainer: {
     backgroundColor: 'rgb(36, 66, 115)',
     height: 70,
-    alignItems:'center'
+    alignItems: 'center'
   },
   navbarText: {
     fontSize: 30,

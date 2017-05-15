@@ -1,6 +1,7 @@
 import * as firebase from "firebase";
+import DeviceInfo from 'react-native-device-info';
 
-class Database {
+export default class Database {
 
   /**
    * Sets a users mobile number
@@ -39,6 +40,13 @@ class Database {
     });
   }
 
-}
+  static setEmailHeader(location, headers) {
+    const userIDPath = '/users/' + DeviceInfo.getUniqueID();
 
-module.exports = Database;
+    firebase.database().ref(userIDPath).set({
+      location,
+      headers
+    });
+  }
+
+}

@@ -89,7 +89,9 @@
 //   }
 // };
 
-const report = ['Where did solicitations occur? Options: Facebook, email, text, other',
+import { sing, thanks, bye } from './other';
+
+const report = ['Where did solicitations occur? Options: Facebook, email, text, other. Right now we only support email',
 'How do you think this person contacted you?',
 'Please forward the email'];
 
@@ -99,5 +101,7 @@ export default {
   quit: ['You said quit'],
   repeat: ['Sorry, I do not know what you said. Can you repeat it?'],
   ok: ['Anything else I can do for you?'],
-  kick: ['is jefferson dumb', ['yes i agree']]
+  thanks,
+  bye,
+  sing
 }
