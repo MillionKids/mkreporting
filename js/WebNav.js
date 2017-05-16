@@ -20,8 +20,8 @@ class WebNav extends React.PureComponent {
     return (
       <View style={styles.container}>
         <View style={[styles.left]}>
-          {this.createButton('chevron-left', this.props.goBack, 'Back')}
-          {this.createButton('chevron-right', this.props.goForward, 'Forward')}
+          {this.createButton('chevron-left', this.props.onBack, 'Back')}
+          {this.createButton('chevron-right', this.props.onForward, 'Forward')}
         </View>
         <View style={{flex: 1, justifyContent: 'center'}}>
           {this.createButton('report',
@@ -41,8 +41,9 @@ class WebNav extends React.PureComponent {
 
   createButton(iconName, action, text='', styling=null, color='white') {
     return (
-      <TouchableOpacity style={styles.button}
-                          onPress={action}>
+      <TouchableOpacity
+        style={styles.button}
+        onPress={action}>
         <View style={styles.icon}>
             <Icon name={iconName} size={30} color={color} />
           <Text style={[styles.text, styling]}>{text}</Text>

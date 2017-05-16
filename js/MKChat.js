@@ -231,7 +231,8 @@ export default class MKChat extends React.Component {
         >
           <MKWebView
             uri={this.state.webURI}
-            onClose={() => this.setModalVisible('', !this.state.webViewVisible) }/>
+            onClose={() => this.setModalVisible('', !this.state.webViewVisible) }
+          />
         </Modal>
       </View>
     );

@@ -15,10 +15,9 @@ const Navbar = (props) => {
     <View style={styles.navbarContainer}>
       <StatusBar barStyle="light-content" />
       {viewType === 'chat' && <Text style={styles.navbarText}>Porty</Text>}
-      {viewType === 'web' && <WebNav {...this.props}/>}
+      {viewType === 'web' && <WebNav {...props}/>}
     </View>
   );
-
 };
 
 const styles = StyleSheet.create({

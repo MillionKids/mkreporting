@@ -7,7 +7,6 @@ import {
 import MKChat from './MKChat';
 import OnboardingView from './OnboardingView';
 import firebaseInit from '../server/firebase';
-import Navbar from './Navbar';
 firebaseInit();
 
 export default class App extends React.Component {
@@ -32,8 +31,7 @@ export default class App extends React.Component {
   render() {
     if (this.state.onboarded) {
       return (
-        <Navbar viewType={'web'}/>
-        // <MKChat />
+        <MKChat />
       )
     }
     return (

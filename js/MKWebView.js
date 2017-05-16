@@ -18,7 +18,11 @@ class MKWebView extends React.PureComponent {
     this.state = {
       currentURL: '',
       location: { },
+      canGoBack: false,
+      canGoForward: false,
     };
+
+    this.sendPostMessage = this.sendPostMessage.bind(this);
   }
 
   componentWillMount() {
@@ -83,6 +87,12 @@ class MKWebView extends React.PureComponent {
           onSend={this.sendPostMessage}
           onClose={this.props.onClose}
           uri={this.props.uri}
+          // if we didn't wrap the back and forward, the render will try to process the webview's
+          // function, which is null
+          onBack={() => { this.webView.goBack() }}
+          onForward={() => { this.webView.goForward() }}
+          backDisabled={!this.state.canGoBack}
+          forwardDisabled={!this.state.canGoForward}
         />
         <WebView
           source={{uri: this.props.uri }}
@@ -91,7 +101,11 @@ class MKWebView extends React.PureComponent {
           injectedJavaScript={patchPostMessageJsCode}
           ref={( webView ) => this.webView = webView}
           onMessage={this.onMessage}
-          onNavigationStateChange={(event) => this.setState({ currentURL: event.url })}
+          onNavigationStateChange={(event) => this.setState({
+            currentURL: event.url,
+            canGoBack: event.canGoBack,
+            canGoForward: event.canGoForward
+          }) }
         />
       </View>
     );
