@@ -1,8 +1,10 @@
 import React, {Component} from 'react';
-import {View, Text, TouchableHighlight, StyleSheet} from 'react-native';
-
+import {View, Text, TouchableOpacity, StyleSheet} from 'react-native';
+// import Icon from 'react-native-vector-icons/FontAwesome';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 import OnboardingView from './OnboardingView';
 
+// More accurately, the buttons for the web nav
 class WebNav extends React.PureComponent {
 
   state = {
@@ -17,19 +19,35 @@ class WebNav extends React.PureComponent {
     }
     return (
       <View style={styles.container}>
-        <TouchableHighlight style={{padding: 10, backgroundColor: 'blue', marginTop: 20}}
-                            onPress={this.props.onSend}>
-          <Text style={{color: 'white'}}>Report</Text>
-        </TouchableHighlight>
-        <TouchableHighlight style={{padding: 10, backgroundColor: 'red', marginTop: 20}}
-                            onPress={this.props.onClose}>
-          <Text style={{color: 'white'}}>Close poo</Text>
-        </TouchableHighlight>
-        <TouchableHighlight style={{padding: 10, backgroundColor: 'cadetblue', marginTop: 20}}
-                            onPress={this.openInstructions}>
-          <Text style={{color: 'white'}}>instructions</Text>
-        </TouchableHighlight>
+        <View style={[styles.left]}>
+          {this.createButton('chevron-left', this.props.goBack, 'Back')}
+          {this.createButton('chevron-right', this.props.goForward, 'Forward')}
+        </View>
+        <View style={{flex: 1, justifyContent: 'center'}}>
+          {this.createButton('report',
+            this.props.onSend,
+            'Report',
+            {fontWeight: 'bold', color: 'gold'},
+            'gold'
+          )}
+        </View>
+        <View style={[styles.right]}>
+          {this.createButton('help', this.openInstructions, 'Help')}
+          {this.createButton('close', this.props.onClose, 'Close')}
+        </View>
       </View>
+    )
+  }
+
+  createButton(iconName, action, text='', styling=null, color='white') {
+    return (
+      <TouchableOpacity style={styles.button}
+                          onPress={action}>
+        <View style={styles.icon}>
+            <Icon name={iconName} size={30} color={color} />
+          <Text style={[styles.text, styling]}>{text}</Text>
+        </View>
+      </TouchableOpacity>
     )
   }
 
@@ -55,7 +73,28 @@ class WebNav extends React.PureComponent {
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
+  },
+  left: {
+    flexDirection: 'row',
+    flex: 1,
+    justifyContent: 'flex-start',
+  },
+  right: {
+    flexDirection: 'row',
+    flex: 1,
+    justifyContent: 'flex-end',
+  },
+  button: {
+    padding: 10,
+    marginTop: 15
+  },
+  icon: {
+    alignItems: 'center'
+  },
+  text: {
+    color: 'white',
+    fontSize: 11,
   }
-})
+});
 
 export default WebNav;
