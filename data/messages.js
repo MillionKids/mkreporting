@@ -1,7 +1,7 @@
 module.exports = [
   {
     _id: Math.round(Math.random() * 1000000),
-    text: 'Hello, what would like me to help you with?',
+    text: 'Hello! We are Million Kids and we are here to help :) If anyone has asked you to send something inapropriate online, you can report them by typing "Report."',
     createdAt: new Date(),
     user: {
       _id: 2,

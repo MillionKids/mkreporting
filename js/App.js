@@ -12,21 +12,21 @@ firebaseInit();
 export default class App extends React.Component {
 
   state = {
-    onboarded: true,
+    onboarded: false,
   };
 
-  componentWillMount() {
-    AsyncStorage.getItem('onboard')
-      .then((onboarded) => {
-        if (!onboarded) {
-          this.setState({ onboarded: false })
-        }
-      })
-      .catch(() => {
-        console.log('caught')
-      })
-
-  }
+  // componentWillMount() {
+  //   AsyncStorage.getItem('onboard')
+  //     .then((onboarded) => {
+  //       if (!onboarded) {
+  //         this.setState({ onboarded: false })
+  //       }
+  //     })
+  //     .catch(() => {
+  //       console.log('caught')
+  //     })
+  //
+  // }
 
   render() {
     if (this.state.onboarded) {
