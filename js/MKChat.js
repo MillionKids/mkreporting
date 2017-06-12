@@ -13,7 +13,9 @@ import { GiftedChat, Bubble } from 'react-native-gifted-chat';
 import Navbar from './Navbar';
 
 import DefaultMessages from '../data/messages';
+import ESLMessages from '../data/eslMessages';
 import Dictionary from '../data/dictionary';
+import ESL from '../data/esl';
 import EmailDict from '../data/links';
 import MKWebView from './MKWebView';
 
@@ -23,6 +25,7 @@ export default class MKChat extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      currentDict: Dictionary,
       messages: [],
       nextPage: null,
       hasNextPage: true,
@@ -133,9 +136,9 @@ export default class MKChat extends React.Component {
   }
 
   // maps response to questions for first time
-  mapSimpleQuery(messageArray) {
+  mapSimpleQuery = (messageArray) => {
     let answer = {};
-    messageArray.map(word => answer.questions = Dictionary[word]);
+    messageArray.map(word => answer.questions = this.state.currentDict[word]);
     if (!answer.questions)
       return answer;
     if (answer.questions.length > 1) {
@@ -205,11 +208,22 @@ export default class MKChat extends React.Component {
     return null;
   }
 
+  switchBots = () => {
+    this.setState(
+      { currentDict: this.state.currentDict._version === "esl" ? Dictionary : ESL,
+        messages: this.state.currentDict._version === "esl" ? DefaultMessages : ESLMessages
+      }
+    )
+
+  };
 
   render() {
     return (
       <View style={styles.appContainer}>
-        <Navbar viewType={'chat'} />
+        <Navbar viewType={'chat'}
+                onBotSwitch={this.switchBots}
+                botName={this.state.currentDict._name}
+        />
         <GiftedChat
           messages={this.state.messages}
           onSend={this.onSend}

@@ -96,6 +96,8 @@ const report = ['Where did solicitations occur? Options: Facebook, email, text, 
 'Please forward the email'];
 
 export default {
+  _name: "MK Reporting Chatbot",
+  _version: "regular",
   help: ['Hi, you asked for help. You can say Report to report a bad guy, or Quit'],
   report,
   quit: ['You said quit'],

@@ -4,6 +4,7 @@ import {
   StatusBar,
   StyleSheet,
   Text,
+  TouchableOpacity,
   View
 } from 'react-native';
 
@@ -14,7 +15,13 @@ const Navbar = (props) => {
   return (
     <View style={styles.navbarContainer}>
       <StatusBar barStyle="light-content" />
-      {viewType === 'chat' && <Text style={styles.navbarText}>MK Reporting Chatbot</Text>}
+      {viewType === 'chat' &&
+        <View>
+          <TouchableOpacity onPress={props.onBotSwitch}>
+            <Text style={styles.navbarText}>{props.botName}</Text>
+          </TouchableOpacity>
+        </View>
+      }
       {viewType === 'web' && <WebNav {...props}/>}
     </View>
   );
