@@ -16,7 +16,6 @@
   * for iOS
     * run `react-native run-ios`
   * for Android
-    * Run Genymotion
     * run `react-native run-android`
 
 ## :closed_lock_with_key: Secrets
